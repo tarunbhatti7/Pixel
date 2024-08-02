@@ -1,0 +1,519 @@
+{%load static%}
+<style>
+
+/* profile image css */
+
+  #image{
+    background-image: url("/media/{{user.prof_image}}");
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+  }
+
+  #image2 , #image3{
+    background-image: url("{%static '/images/user__.png'%}");
+    background-size: cover;
+    background-position: center;
+    background-position-y: 2px;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+  }
+
+.logo {
+	flex: 1;
+	margin-left: 50px;
+	color: black;
+	font-size: 20px;
+	font-family: monospace;
+}
+
+/* notication css */
+
+.bell-icon {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  background: orange;
+  border-radius: 50%;
+  display: flex;
+}
+.bell-icon svg {
+  margin: auto;
+  position: relative;
+  right: 2%;
+  width: 80%;
+  height: 80%;
+  stroke: rgba(0, 0, 0, 0.75);
+}
+.bell-icon .bell-icon__group {
+  transform-origin: 50% 2px;
+  transform: rotate(-8deg);
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+.bell-icon .bell-icon__ball {
+  transform-origin: 50% 2px;
+  transform: translateX(-6.5%);
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+.notification-amount {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Copse", serif;
+  font-size: 15px;
+}
+.notification-amount span {
+  position: relative;
+}
+.notification-before {
+  content: "";
+  position: absolute;
+  bottom :40%;
+  right:20%;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: #f72918;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* inside */
+
+.dropdown-content {
+  list-style: none;
+  position: absolute;
+  top: 3.2em;
+  width: fit-content;
+  overflow: hidden;
+}
+
+.dropdown-content li {
+  background: lightgoldenrodyellow;
+  border-radius: 0.5em;
+  position: relative;
+  width: fit-content;
+  height: 60px;
+  margin: 10px;
+}
+
+.dropdown-content div li:hover {
+  background: orange;
+}
+
+.dropdown-content div:hover {
+  background: orange;
+}
+
+.dropdown-content li{
+  visibility: visible;
+  display: block;
+  color: #fff;
+  margin:10px;
+  height: fit-content;
+  text-decoration: none;
+  z-index: 2;
+  width: 100%;
+  border: 3px solid orange;
+}
+
+/* navbar on header */
+#header nav a, #header i {
+    color:white;
+}
+
+#nav-trigger span{
+  color: white;
+}
+
+</style>
+
+<script>
+
+// declining request 
+    function dec(urls){
+    
+    payload = {
+            'csrfmiddlewaretoken' : '{{csrf_token}}',
+    }
+    $.ajax({
+      type: "POST",
+      url: urls,
+      data: payload,
+      dataType: "json",
+      
+      success: function (response){  
+        data = response.da
+        data = data[0]
+        console.log(data)
+      },
+      
+      complete:function(){
+        $('.put').html(``);
+        $('#notify').text();    
+        notifi();
+      }
+    });
+    
+    }
+
+// accepting request
+    function acc(send_urls){
+
+    $.ajax({
+      type: "GET",
+      url: send_urls,
+      dataType: "json",
+      
+      success: function (response){  
+      },
+      
+      complete:function(){
+        $('.put').html(``);
+        $('#notify').text();    
+        notifi();
+      }
+    });
+    
+    }
+</script>
+
+<!-- Navbar-->
+
+<div id="header" class="nav-collapse" >
+  <div class="row clearfix" >
+      <div class="col-2" style="width: 100%;">
+
+          <!--Logo-->
+          <div id="logo" style="margin-left:20px ;">
+
+              <!--Logo that is shown on the banner-->
+              <a href="/"><img src="https://cdn-icons-png.flaticon.com/128/889/889648.png" id="banner-logo" alt="Landing Page"/></a>
+              <!--End of Banner Logo-->
+
+              <!--The Logo that is shown on the sticky Navigation Bar-->
+              <a href="/"><img src="https://cdn-icons-png.flaticon.com/128/889/889648.png" id="navigation-logo" alt="Landing Page"/></a>
+              <!--End of Navigation Logo-->
+
+          </div>
+          <!--End of Logo-->    
+          <aside style="margin-right:20px ;">
+
+              <!--Social Icons in Header-->
+
+              <ul class="social-icons">
+                  {%if request.user.is_authenticated%}
+
+                  {%if user.prof_image%}
+                  <li style="position: relative; bottom: 6px;">
+                      <a target="_blank" title="Profile" href="{% url 'profile' user.id %}">
+                          <div class="nav-item me-3 me-lg-1 rounded-circle" id="image" style="bottom: 2px; position: relative;"></div>
+                      </a>
+                  </li>
+                  {%else%}
+                  <li  style="position: relative; bottom: 6px;">
+                      <a target="_blank" title="Profile" href="{% url 'profile' user.id %}">
+                          <div class="nav-item me-3 me-lg-1 rounded-circle" id="image2" style="background-color: yellow; bottom: 2px; position: relative;"></div>
+                      </a>
+                  </li>
+                  {%endif%}
+
+                  <li style="cursor: pointer; position: relative; bottom: 6px; left: 10px;"  aria-haspopup="menu" id="clc" >
+                      <div class="bell-icon" tabindex="0" style="position: relative; bottom: 5px;" class="dropdown-btn" aria-haspopup="menu" class="dropdown-btn" aria-haspopup="menu">
+                      <svg  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="30px" viewBox="0 0 50 30" enable-background="new 0 0 50 30" xml:space="preserve">
+                        <g class="bell-icon__group">
+                          <path class="bell-icon__ball" id="ball" fill-rule="evenodd" stroke-width="1.5" clip-rule="evenodd" fill="none" stroke="#currentColor" stroke-miterlimit="10" d="M28.7,25 c0,1.9-1.7,3.5-3.7,3.5s-3.7-1.6-3.7-3.5s1.7-3.5,3.7-3.5S28.7,23,28.7,25z"/>
+                          <path class="bell-icon__shell" id="shell" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" stroke="#currentColor" stroke-width="2" stroke-miterlimit="10" d="M35.9,21.8c-1.2-0.7-4.1-3-3.4-8.7c0.1-1,0.1-2.1,0-3.1h0c-0.3-4.1-3.9-7.2-8.1-6.9c-3.7,0.3-6.6,3.2-6.9,6.9h0 c-0.1,1-0.1,2.1,0,3.1c0.6,5.7-2.2,8-3.4,8.7c-0.4,0.2-0.6,0.6-0.6,1v1.8c0,0.2,0.2,0.4,0.4,0.4h22.2c0.2,0,0.4-0.2,0.4-0.4v-1.8 C36.5,22.4,36.3,22,35.9,21.8L35.9,21.8z"/>
+                        </g>
+                      </svg>
+
+                      <div class="notification-before">
+                        <div class="notification-amount">
+                          <span style="z-index: 2;" id="some"></span>
+                      </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>  
+<!-- notifications dropdown -->
+                    <div class="dropdown" >
+                      <button id="close" style="position: absolute;  right: -20px; top: 100px ; background-color: #f72918;"> <img src="{%static 'images/close_.png'%}" alt="" style=" width: 20px;"> </button>
+                      <ul class="dropdown-content" role="menu" style="position: absolute;  right: -20px; top: 150px ; width: 20vw; height:fit-content; overflow:scroll; overflow-x: hidden;" id="put">
+                        
+                        <li style="--delay: 1;">
+                          <div class="notifi-item" style="padding: 30px;">
+                            <img src="{%static 'images/logo.png'%}" alt="img" width="30px"/>
+                            <div class="text">
+                            <h4>Hello {{user.username}}</h4>
+                            <p style="color: black;">Nothing so far</p>
+                            </div>
+                          </div>
+                        </li>
+                                                
+                      </ul>
+                    </div>
+                  </li>
+                  
+                  <li>
+                      <a target="_blank" title="Comment">
+                          <img style="position: relative; bottom: 20px; left: 10px;"
+                          src="{%static 'images/comment.png' %}"
+                          width="40px"
+                          alt="messages"
+                          loading="lazy"
+                        />
+                      </a>
+                  </li>
+
+                  <li>
+                      <span class="badge rounded-pill badge-notification bg-danger"></span> 
+                  </li>
+
+                  {%else%}
+                  <li  style="position: relative; bottom: 7px;">
+                    <a target="_blank" title="Log In" href="{% url 'login'%}" style="background-color: rgb(100,200,200,1); border-radius: 50%; width: 30px; height: 30px;">
+                      <div class="nav-item me-3 me-lg-1 rounded-circle" id="image3"></div>
+                    </a>
+                  </li>
+                  {%endif%}
+
+              </ul>
+              <!--End of Social Icons in Header-->
+
+          </aside>
+
+          <!--Main Navigation-->
+          <nav id="nav-main" style="background-color: rgb(255,255,255,0.6);">
+              <ul>
+                  <li>
+                      <a  href="/" style="color:rgb(8, 23, 75); font-size: larger;">Home</a>
+                  </li>
+                  {% if request.user.is_authenticated %}
+                  {%else%}
+                  <li>
+                      <a href="/log_in" style="color:rgb(8, 23, 75);font-size: larger;">LogIn</a>
+                  </li>
+                  <li>
+                    <a  href="/sign_up" style="color:rgb(8, 23, 75);font-size: larger;">SignUp</a>
+                  </li>
+                  {%endif%}
+                  <li>
+                      <a  href="/chat/lobby" style="color:rgb(8, 23, 75);font-size: larger;">chats</a>
+                  </li>
+                  <li>
+                    <a  href="/#senotes" style="color:rgb(8, 23, 75);font-size: larger;">Notes</a>
+                  </li>
+                  <li>
+                      <a  href="/#team" style="color:rgb(8, 23, 75);font-size: larger;">Team</a>
+                  </li>
+                  <li>
+                    <a  href="/reportbugs" id="bugs" style="color:rgb(8, 23, 75);font-size: larger;">bugs</a>
+                  </li>
+                  <li>
+                      <a  href="/search" style="color:rgb(8, 23, 75);font-size: larger;">Search</a>
+                  </li>
+                  {% if request.user.is_authenticated %}
+                  <li>
+                      <a s href="/#ist" style="color:rgb(8, 23, 75);font-size: larger;">Upload</a>
+                  </li>
+                  <li>
+                      <a  href="/log_out" style="color:rgb(8, 23, 75);font-size: larger;">LogOut</a>
+                  </li>
+                  {%endif%}
+              </ul>
+          </nav>
+          <!-- End of Main Navigation  with media tag in js files -->
+
+          <div id="nav-trigger"><span style="color: orange; "></span></div>
+          <nav id="nav-mobile"></nav>
+
+      </div>
+  </div>
+</div><!--End of Header-->
+
+<!-- cdn swal -->
+<script src="https://cdn.tutorialjinni.com/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+<!-- Navbar -->
+
+<script>
+
+$('.dropdown').hide();
+
+$('#clc').click(() => {
+  $('.dropdown').show();
+});
+
+$('#close').click(() => {
+  $('.dropdown').hide();
+});
+
+//notification
+
+$(document).ready(()=>{
+
+function load_unseen_notification()
+{
+$.ajax({
+  
+  type: "GET",
+  url:"{%url 'Friend:friend-notify' %}",
+  
+  success: function (response) 
+
+  {
+    var k = response.data
+    var l = response.profile    
+    var list=[]
+    console.log('ajax request sent')
+
+    $('#put').html(``);
+    $('#notify').text();  
+
+    //  combining both the models lists
+    for (i = 0 ; i<k.length ;i++){
+      list.push([k[i] , l[i]]);
+    }
+    //  number of notifications
+    if(k.length!=0){
+      // $('#notify').text(k.length)
+      $('.notification-before').show()
+      $(".notification-amount").text(k.length);
+      $('.notification-amount').css('color','white','z-index','2');
+
+    }
+    if(k.length==0){
+      $('#notify').text('')
+      $('.notification-before').hide()
+    }
+    //  notifications
+
+    if(k.length!=0){
+
+    for(i=0 ;i<k.length;i++){  
+    $('#put').append(`
+    <li style="--delay: 1;" >                        
+    <div class="notifi-item">
+
+        <img src="/media/${list[i][1][0]['prof_image']}" alt="img">
+        <div class="text">
+        <h4>${list[i][1][0]['username']}</h4>
+        <p> Sent a friend request</p>
+
+        <button type="button" class="btn btn-success" id='accept' onclick ="acc('/accept/${list[i][0]['sender_id']}/')">Accept</button>
+        <button type="button" class="btn btn-danger" onclick ="dec('/decline/${list[i][0]['sender_id']}/')" id='decline' >Decline</button>
+        </div>
+    </div>
+    </li>
+    `);
+  }
+  }
+
+  else{
+    $('#put').append(`
+  <li style="--delay: 1;">
+    <div class="notifi-item" style="--delay: 1;">
+      <img src="{%static 'images/logo.png'%}" alt="img" width="30px"/>
+      <div class="text">
+      <h4>Hello {{user.username}}</h4>
+      <p style="color: black;">Nothing so far</p>
+      </div>
+    </div>
+    </li>
+  `);
+  }
+
+}
+});
+
+}
+load_unseen_notification()
+
+// set time for delay in notification 
+setInterval(()=>{
+ load_unseen_notification()
+}, 5000);
+
+// notification function for dynamic notification box
+
+notifi()
+{
+
+$.ajax({
+  type: "GET",
+  url:"{%url 'Friend:friend-notify' %}",
+  success: function (response) 
+  {
+    var k = response.data
+    var l = response.profile    
+    var list=[]
+
+    //  combining both the models lists
+    for (i = 0 ; i<k.length ;i++){
+      list.push([k[i] , l[i]]);
+    }
+
+    //  number of notifications
+    $('#notify').text(k.length)
+
+    //  notifications
+
+    if(k.length!=0){
+      $('.notification-before').show()
+      $(".notification-amount").text(k.length);
+      $('.notification-amount').css('color','white','z-index','2');
+    for(i=0 ;i<k.length;i++){
+      
+    $('#put').append(`
+    <li style="--delay: 1;">
+    <div class="notifi-item">
+
+        <img src="/media/${list[i][1][0]['prof_image']}" alt="img">
+        <div class="text">
+        <h4>${list[i][1][0]['username']}</h4>
+        <p> Sent a friend request</p>
+
+        <button type="button" class="btn btn-success"  onclick ="acc('/accept/${list[i][0]['sender_id']}/')" id='accept'  >Accept</button>
+        <button type="button" class="btn btn-danger" onclick ="dec('/decline/${list[i][0]['sender_id']}/')" id='decline' >Decline</button>
+        </div>
+        
+    </div>
+    </li>
+    `);
+  }
+  }
+
+  else{
+    $("#notify").css("color","white");
+    $('#put').append(`
+    <li style="--delay: 1;">
+    <div class="notifi-item">
+      <img src="{%static 'images/logo.png'%}" alt="img" width="30px"/>
+      <div class="text">
+      <h4>Hello {{user.username}}</h4>
+      <p style="color: black;">Nothing so far</p>
+      </div>
+    </div>
+    </li>
+  `);
+  }
+}
+});
+
+}
+});
+</script>

@@ -1,0 +1,591 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block content%}
+
+
+<style>
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+
+
+a {
+  text-decoration: none;
+}
+
+
+.header {
+  width: 100%;
+  min-height: calc(100px + 15vw);
+  background-repeat: no-repeat;
+
+  
+}
+
+.header__wrapper .cols__container .left__col {
+  padding: 25px 20px;
+  text-align: center;
+  max-width: 350px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.header__wrapper .cols__container .left__col h2 {
+  margin-top: 60px;
+  font-weight: 600;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+.header__wrapper .cols__container .left__col p {
+  font-size: 0.9rem;
+  color: #818181;
+  margin: 0;
+}
+.header__wrapper .cols__container .left__col .about {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: 35px 0;
+}
+.header__wrapper .cols__container .left__col .about li {
+  
+  flex-direction: column;
+  color: #818181;
+  font-size: 0.9rem;
+}
+.header__wrapper .cols__container .left__col .about li span {
+  color: #1d1d1d;
+  font-weight: 600;
+}
+.header__wrapper .cols__container .left__col .about:after {
+  position: absolute;
+  content: "";
+  bottom: -16px;
+  display: block;
+  background: #cccccc;
+  height: 1px;
+  width: 100%;
+}
+.header__wrapper .cols__container .content p {
+  font-size: 1rem;
+  color: #1d1d1d;
+  line-height: 1.8em;
+}
+.header__wrapper .cols__container .content ul {
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+.header__wrapper .cols__container .content ul li {
+  display: flex;
+}
+.header__wrapper .cols__container .content ul i {
+  font-size: 1.3rem;
+}
+.header__wrapper .cols__container .right__col nav {
+  display: flex;
+  align-items: center;
+  padding: 30px 0;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.header__wrapper .cols__container .right__col nav ul {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+.header__wrapper .cols__container .right__col nav ul li a {
+  text-transform: uppercase;
+  color: #818181;
+}
+.header__wrapper .cols__container .right__col nav ul li:nth-child(1) a {
+  color: #1d1d1d;
+  font-weight: 600;
+}
+.header__wrapper .cols__container .right__col nav button {
+  background: #0091ff;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.header__wrapper .cols__container .right__col nav button:hover {
+  opacity: 0.8;
+}
+.header__wrapper .cols__container .right__col .photos {
+  display: flex;
+  width: 100%;
+  gap: 2px;
+}
+.header__wrapper .cols__container .right__col .photos img {
+  max-width: 100%;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsiveness */
+
+@media (min-width: 868px) {
+  .header__wrapper .cols__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 50px;
+  }
+  .header__wrapper .cols__container .left__col {
+    padding: 25px 0px;
+  }
+  .header__wrapper .cols__container .right__col nav ul {
+    flex-direction: row;
+    gap: 30px;
+  }
+  .header__wrapper .cols__container .right__col .photos {
+    height: 365px;
+    overflow: auto;
+    width: 100%;
+    padding: 0 0 30px;
+  }
+}
+
+@media (min-width: 1017px) {
+  .header__wrapper .cols__container .left__col {
+    margin: 0;
+    margin-right: auto;
+  }
+  .header__wrapper .cols__container .right__col nav {
+    flex-direction: row;
+  }
+  .header__wrapper .cols__container .right__col nav button {
+    margin-top: 0;
+  }
+}
+
+/* cardss */
+
+*,
+*::before,
+*::after { 
+  box-sizing: border-box;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.btn {
+  background-color: white;
+  border: 1px solid #cccccc;
+  color: #696969;
+  padding: 0.5rem;
+  text-transform: lowercase;
+}
+
+.btn--block {
+  display: block;
+  width: 100%;
+}
+ 
+.cards {
+  flex-wrap: wrap;
+  list-style: none;
+  border: 2px solid orange;
+  margin: 0;
+  padding: 0;
+  height: fit-content;
+}
+
+.cards__item {
+  display: flex;
+  padding: 1rem;
+  height: fit-content;
+  width: 100%;
+  @media(min-width: 40rem) {
+    width: 100%;
+  }
+  @media(min-width: 53em) {
+    width: 100%;
+  }
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+.card__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.card__image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  filter: contrast(70%);
+  overflow: hidden;
+  position: relative;
+  transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
+  &::before {
+    content: "";
+	  display: block;
+    padding-top: 56.25%; 
+  }
+  @media(min-width: 40rem) {
+    &::before {
+      padding-top: 66.6%;
+    }
+  }
+}
+
+.card__title {
+  color: #696969;
+  font-size: 1.25rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.card__text {
+  flex: 1 1 auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+</style>
+
+<div class="header__wrapper">
+  <div class="header" style="background-image: url('/static/back_.png'); background-size: cover; background-position: 0 -250px;"></div>
+  <div class="cols__container">
+    <div class="left__col">
+      <div class="img__container">
+        {% if auth.prof_image %}
+        <img src="{{auth.prof_image.url}}" alt="{{auth.first_name}} {{auth.last_name}}" style="border-radius: 50%; margin: 0 auto 0 auto;" width="50%" height="20px"/>
+        {%else%} 
+        <img src="/static/images/user__.png" alt="{{auth.first_name}} {{auth.last_name}}" style="background-color: yellow; border-radius: 50%;" width="50%"/>
+        {%endif%}
+        <span></span>
+      </div>
+          <h2>{{auth.first_name}} {{auth.last_name}}</h2>
+          <p>{{auth.college}}</p>
+          <p>{{auth.bio}}</p>
+          {% if auth.hide_email == False %}
+          <p>{{auth.email}}</p>
+          {% else %}
+          <p title="Email hidden">************</p>
+          {%endif%}
+
+      <ul class="about">
+        <li><a href="/friend_list/{{user.id}}"><span>{{friends|length}}</span>Followers</a></li>
+        <li><span>{{total}}</span>Uploads</li>
+      </ul>
+
+    </div>
+    <div class="right__col">
+      <nav>
+       
+
+
+      <!-- logic to change  buttons -->
+
+      {% if user.id == auth.id %}
+      <a href="{%url 'update' request.user.id%}">
+        <button>update</button>
+      </a>
+      {%else%}
+
+      {%if is_friend == False and is_self == False %}
+          
+        {% if request_sent == 1 %}
+          <button id="cancel_request">Cancel Request</button>
+        {%endif%}
+
+        {% if request_sent == -1 %}
+          <button id="request">Send Request</button>
+        {%endif%}
+
+      {%endif%}
+      {%endif%}
+
+      </nav>
+      <div style="margin: 0 auto 0 auto ; width: 100%;">YOUR UPLOADS</div>
+      <div class="photos">
+          
+        <ul class="cards">
+          {%if d%}
+          <li style="text-align: center;">IST YEAR </li>
+          {%for d in d%}
+          <li class="cards__item" >
+            <div class="card">
+              <div><img src="{%static '/images/logo.png'%}" width="30px" alt=""></div>
+              <div class="card__content">
+                <div class="card__title">{{d.title}}</div>
+                <p class="card__text">{{d.dis}}</p>
+                <a href="/meadia/{{d.file}}">
+                <button class="btn btn--block card__btn" style="cursor:pointer;">View</button>
+                </a>
+                <br>
+                {% if request.user == d.author %}
+                <form action="/delete1/{{d.id}}/{{d.author.id}}" style="cursor:pointer;">
+                  <button class="btn btn--block card__btn delete"style="background-color: red; cursor:pointer;" >
+                    Delete
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                  </button>
+                </form>
+                {%endif%}
+              </div>
+            </div>
+          </li>
+          {%endfor%}
+        
+        {%else%}
+        <li style="text-align: center;">IST YEAR </li>
+        <li class="cards__item" >
+          no uploads
+        </li>
+        {%endif%}
+      </ul>
+
+        <ul class="cards">
+          {%if dat%}
+          <li style="text-align: center;">SECOND YEAR </li>          
+          
+          {%for d in dat%}
+          <li class="cards__item" >
+            <div class="card">
+              <div><img src="{%static '/images/logo.png'%}" alt="" width="30px"></div>
+              <div class="card__content">
+                <div class="card__title">{{d.title}}</div>
+                <p class="card__text">{{d.dis}}</p>
+                <a href="/meadia/{{d.file}}">
+                <button class="btn btn--block card__btn">View</button>
+                </a>
+                <br>
+                {% if request.user == d.author %}
+                <form action="/delete2/{{d.id}}/{{d.author.id}}" style="cursor:pointer;">
+                  <button class="btn btn--block card__btn delete"style="background-color: red; cursor:pointer;">
+                    Delete
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                  </button>
+                </form>
+                {%endif%}
+              </div>
+            </div>
+          </li>
+          {%endfor%}
+          {%else%}
+          <li style="text-align: center;">SECOND YEAR </li>
+          <li class="cards__item" >
+            no uploads
+          </li>
+          {%endif%}
+        </ul>
+
+        <ul class="cards">
+          {% if data%}
+          <li style="text-align: center;">THIRD YEAR </li>
+          
+          {%for d in data%}
+          <li class="cards__item" >
+            <div class="card">
+              <div><img src="{%static '/images/logo.png'%}" alt="" width="30px"></div>
+              <div class="card__content">
+                <div class="card__title">{{d.title}}</div>
+                <p class="card__text">{{d.dis}}</p>
+                <a href="/meadia/{{d.file}}">
+                <button class="btn btn--block card__btn" style="cursor: pointer;">View</button>
+                </a>
+                <br>
+                {% if request.user == d.author %}
+                <form action="/delete3/{{d.id}}/{{d.author.id}}" style="cursor:pointer;">
+                  <button class="btn btn--block card__btn delete"style="background-color: red; cursor: pointer;">
+                    Delete
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                  </button>
+                </form>
+                {%endif%}
+              </div>
+            </div>
+          </li>
+          {%endfor%}
+          {%else%}
+          <li style="text-align: center;">THIRD YEAR </li>
+          <li class="cards__item" >
+            no uploads
+          </li>
+          {%endif%}
+        </ul>
+
+        <ul class="cards">
+          {% if datas%}
+          <li style="text-align: center;">FOURTH YEAR </li>
+          
+          {%for d in datas%}
+          <li class="cards__item" >
+            <div class="card">
+              <div><img src="{%static '/images/logo.png'%}" alt="" width="30px"></div>
+              <div class="card__content">
+                <div class="card__title">{{d.title}}</div>
+                <p class="card__text">{{d.dis}}</p>
+                <a href="/meadia/{{d.file}}">
+                <button class="btn btn--block card__btn delete" style="cursor: pointer;">View</button>
+                </a>
+                <br>
+                {% if request.user == d.author %}
+                <form action="/delete4/{{d.id}}/{{d.author.id}}" style="cursor:pointer;">
+                  <button class="btn btn--block card__btn"style="background-color: red; cursor: pointer;">
+                    Delete
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                  </button>
+                </form>
+                {%endif%}
+              </div>
+            </div>
+          </li>
+          {%endfor%}
+          {%else%}
+          <li style="text-align: center;">FOURTH YEAR </li>
+          <li class="cards__item" >
+            no uploads
+          </li>
+          {%endif%}
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+</script>
+
+<script>
+
+  //stuff on sending request
+
+  function onFriendRequestSent(){
+    location.reload(); 
+  }
+
+  function sendFriendRequest(id , uiUpdateFunction) {  
+        console.log(id)
+        payload = {
+            'csrfmiddlewaretoken' : '{{csrf_token}}',
+            'receiver_user_id' : id,
+        }
+        
+        $.ajax({
+        type: "POST",
+        url: "{%url 'Friend:friend-request' %}",
+        dataType: "json",
+        timeout:5000,
+        data : payload,
+
+        success: function (data) {
+            // console.log("SUCESS " : response)
+            if(data['response'] == "friend request sent" ){
+                
+            }
+            else if(data['response'] == null){
+                alert(data['response'])
+            }
+        },
+        complete: function(){
+            uiUpdateFunction()
+        }
+        });
+  };
+
+  $('#request').click(()=>{ 
+      console.log("clicked"); 
+      sendFriendRequest('{{auth.id}}',onFriendRequestSent);
+      notification('sending request');
+  });
+
+
+    //stuff on cancelling request
+
+  function onFriendRequestcancel(){ 
+      location.reload();
+    }
+
+  function cancelFriendRequest(id , uiUpdateFunction) {  
+        console.log(id)
+        payload = {
+            'csrfmiddlewaretoken' : '{{csrf_token}}',
+            'receiver_user_id' : id,
+        }
+        
+        $.ajax({
+        type: "POST",
+        url: "{%url 'Friend:friend-request-cancel' %}",
+        dataType: "json",
+        data : payload,
+
+        complete: function(){ 
+            uiUpdateFunction()
+        }
+
+        });
+  };
+
+  $('#cancel_request').click(()=>{ 
+      console.log("clicked");
+      cancelFriendRequest('{{auth.id}}',onFriendRequestcancel);
+      notification('cancelling request');
+    });
+
+
+  // message box
+
+let timer1, timer2;
+
+function notification(text){
+  $('.toast').addClass("active");
+  $('.text').text(text);
+}
+
+$('.progress').addClass("active");
+
+timer1 = setTimeout(() => {
+    $('.toast').removeClass("active");
+}, 5000);
+
+timer2 = setTimeout(() => {
+  $('.progress').removeClass("active");
+}, 5300);
+
+
+$('.close').click(() => {
+  $('.toast').removeClass("active");
+
+setTimeout(() => {
+$('.progress').removeClass("active");
+}, 300);
+
+  clearTimeout(timer1);
+  clearTimeout(timer2);
+
+}); 
+
+</script>
+
+{%endblock%}

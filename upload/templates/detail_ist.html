@@ -1,0 +1,603 @@
+{%extends 'base.html'%}
+
+{%block head%}
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  grid-gap: 10%;
+  margin: 0 30px 0 30px;
+}
+
+.grid > article {
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 6px 0px rgba(187, 163, 206, 1);
+  background-color: #fff;
+  padding: 5% 0;
+  border-radius: 20px;
+}
+
+
+.grid .text {
+  padding: 10px 20px 20px 30px;
+  color: #808285;
+  margin-bottom: 20px;  
+}
+
+.grid .btn {
+  margin-top: 20px;
+  background-color: #e0d4e9;
+	border: 0;
+	border-radius: 5px;
+	color: #000;
+	font-size: 15px;
+	padding: 5px 10px 5px 10px;
+  line-height: 5;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  
+}
+
+.btn:hover {
+  background: #d1d3d4;
+  transition-duration: 80ms;
+}
+
+h3{ 
+  color: #000;
+  text-align: left;
+}
+
+
+.title {
+	font-family: 'Pacifico';
+	font-weight: normal;
+	font-size: 40px;
+	text-align: center;
+	line-height: 1.4;
+	color: black;
+  top: 100px ;
+}
+
+.dropdown {
+	position: relative;
+  width: 50%;
+  margin: 0 auto 0 auto;
+}
+
+.dropdown a {
+	text-decoration: none;
+}
+
+[data-toggle="dropdown"] {
+	display: block;
+	color: black;
+	background: gray;
+	box-shadow: 0 1px 0 lighten(black, 10%) inset, 0 -1px 0 darken(black, 10%) inset;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	padding: 10px;
+}
+
+[data-toggle="dropdown"]:before {
+	position: absolute;
+	display: block;
+	content: '\25BC';
+	font-size: 0.7em;
+	color: #fff;
+	top: 13px;
+	right: 10px;
+	transform: rotate(0deg);
+	transition: transform 0.6s;
+}
+
+.dropdown > .dropdown-menu {
+	max-height: 0;
+	overflow: hidden;
+	transform: scaleY(0);
+	transform-origin: 50% 0%;
+	transition: max-height 0.6s ease-out;
+	animation: hideAnimation 0.4s ease-out;
+}
+
+.dropdown > .dropdown-menu li {
+	padding: 0;
+}
+
+.dropdown > .dropdown-menu li button {
+	display: block;
+  color: black;
+  width: 100%;
+  cursor: pointer;
+	background: grey;
+	padding: 10px 10px;
+}
+
+.dropdown > input[type="checkbox"] {
+	opacity: 0;
+	display: block;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+
+.dropdown > input[type="checkbox"]:checked ~ .dropdown-menu {
+	max-height: 9999px;
+	display: block;
+	transform: scaleY(1);
+	animation: showAnimation 0.5s ease-in-out;
+	transition: max-height 2s ease-in-out;
+}
+
+.dropdown > input[type="checkbox"]:checked + [data-toggle="dropdown"]:before {
+	transform: rotate(-180deg);
+	transition: transform 0.6s;
+}
+
+@keyframes showAnimation {
+	0% {
+		transform: scaleY(0.1);
+	}
+	40% {
+		transform: scaleY(1.04);
+	}
+	60% {
+		transform: scaleY(0.98);
+	}
+	80% {
+		transform: scaleY(1.04);
+	}
+	100% {
+		transform: scaleY(0.98);
+	}
+	80% {
+		transform: scaleY(1.02);
+	}
+	100% {
+		transform: scaleY(1);
+	}
+}
+
+@keyframes hideAnimation {
+	0% {
+		transform: scaleY(1);
+	}
+	60% {
+		transform: scaleY(0.98);
+	}
+	80% {
+		transform: scaleY(1.02);
+	}
+	100% {
+		transform: scaleY(0);
+	}
+}
+
+
+</style>
+
+{%endblock%}
+
+{%block content%}
+<br><br><br><br>
+<div class="container">
+  <h1 class="title">Select Subject</h1>
+  <ul>
+    <li class="dropdown">
+      <input type="checkbox" />
+      <a href="#" class="text" data-toggle="dropdown" style="text-align: center;">All</a>
+      <ul class="dropdown-menu">
+        <li><button id="All">All</button></li>
+        <li><button type="button" id="Chemistry">Chemistry</button></li>
+        <li><button id="Physics">Physics</button></li>
+        <li><button id="Maths">Maths</button></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="container" style="margin: 20vh auto 20vh auto;">
+  <main class="grid">
+  </main>
+</div>
+<br><br><br><br>
+<script>
+$(document).ready(()=>{
+$.ajax({
+            type: "GET",
+            url:"PRoWaDr!2udrAdis_ciwowLjafIpeXldrOtHIhAx/",
+            success: function (response) {
+                var p =response.data
+                p.forEach(element => {
+                    console.log(element)
+
+                    var date_string = element.da_ti;
+                    var dateObject = new Date(date_string);
+
+                    var monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var formattedDate = monthNames[dateObject.getMonth()] + " " +
+                              dateObject.getDate() + ", " +
+                              dateObject.getFullYear() + " " +
+                              dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                              
+  
+                        
+                        $('.grid').append(
+                          `
+                          <article>
+                          <div class="text">
+                            <h3>${element.title}</h3>
+                            <p>${formattedDate} </p>
+                            <p>${element.name}</p>
+                            <h5>About</h5>
+                            <p>${element.dis}</p>
+                            <p>by <a href="/${element.author_id}/profile/"> ${element.auname}</a></p>
+                            <a href="/media/${element.file}" class="btn">read here</a>
+                          </div>
+                          </article>
+
+                          `
+                            )  
+            });
+            },
+            error:(response)=>{
+                alert("error occured")
+            }
+});
+});
+
+var a;
+
+$('#Physics').click(()=>{ 
+  a="physics";
+  $('.text').text(a);
+  $('.grid').html(``)
+$.ajax({
+            type: "GET",
+            url:"PRoWaDr!2udrAdis_ciwowLjafIpeXldrOtHIhAx/",
+            success: function (response) {
+                var p =response.data
+                console.log(p)
+                p.forEach(element => {
+                    console.log(element)
+
+                    var date_string = element.da_ti;
+                    var dateObject = new Date(date_string);
+
+                    var monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var formattedDate = monthNames[dateObject.getMonth()] + " " +
+                              dateObject.getDate() + ", " +
+                              dateObject.getFullYear() + " " +
+                              dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    
+                    console.log(a);
+
+                    var k=element.name;                  
+                    if(k===a){
+
+                        $('.grid').append(
+                          `
+                          <article>
+                          <div class="text">
+                            <h3>${element.title}</h3>
+                            <p>${formattedDate} </p>
+                            <p>${element.name}</p>
+                            <h5>About</h5>
+                            <p>${element.dis}</p>
+                            <p style="color:white;">by <a href="/${element.author_id}/profile/"> ${element.auname}</a></p>
+                            <a href="/media/${element.file}" class="btn">read here</a>
+                          </div>
+                          </article>
+
+                          `
+                            )  
+                          }    
+            });
+            },
+            error:(response)=>{
+                alert("error occured")
+            }
+});
+});
+
+$('#Maths').click(()=>{ 
+  a="maths";
+  $('.text').text(a);
+  $('.grid').html(``)
+$.ajax({
+            type: "GET",
+            url:"PRoWaDr!2udrAdis_ciwowLjafIpeXldrOtHIhAx/",
+            success: function (response) {
+                var p =response.data
+                console.log(p)
+                p.forEach(element => {
+                    console.log(element)
+
+                    var date_string = element.da_ti;
+                    var dateObject = new Date(date_string);
+
+                    var monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var formattedDate = monthNames[dateObject.getMonth()] + " " +
+                              dateObject.getDate() + ", " +
+                              dateObject.getFullYear() + " " +
+                              dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    
+                    console.log(a);
+
+                    var k=element.name;                  
+                    if(k===a){
+                      $('.grid').append(
+                          `
+                          <article>
+                          <div class="text">
+                            <h3>${element.title}</h3>
+                            <p>${formattedDate} </p>
+                            <p>${element.name}</p>
+                            <h5>About</h5>
+                            <p>${element.dis}</p>
+                            <p style="color:white;">by <a href="/${element.author_id}/profile/"> ${element.auname}</a></p>
+                            <a href="/media/${element.file}" class="btn">read here</a>
+                          </div>
+                          </article>
+
+                          `
+                            )  
+                          }    
+            });
+            },
+            error:(response)=>{
+                alert("error occured")
+            }
+});
+});
+
+
+$('#Chemistry').click(()=>{ 
+  a="chemistry";
+  $('.text').text(a);
+  $('.grid').html(``)
+$.ajax({
+            type: "GET",
+            url:"PRoWaDr!2udrAdis_ciwowLjafIpeXldrOtHIhAx/",
+            success: function (response) {
+                var p =response.data
+                console.log(p)
+                p.forEach(element => {
+                    console.log(element)
+
+                    var date_string = element.da_ti;
+                    var dateObject = new Date(date_string);
+
+                    var monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var formattedDate = monthNames[dateObject.getMonth()] + " " +
+                              dateObject.getDate() + ", " +
+                              dateObject.getFullYear() + " " +
+                              dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    
+                    console.log(a);
+
+                    var k=element.name;                  
+                    if(k===a){
+                      $('.grid').append(
+                          `
+                          <article>
+                          <div class="text">
+                            <h3>${element.title}</h3>
+                            <p>${formattedDate} </p>
+                            <p>${element.name}</p>
+                            <h5>About</h5>
+                            <p>${element.dis}</p>
+                            <p style="color:white;">by <a href="/${element.author_id}/profile/"> ${element.auname}</a></p>
+                            <a href="/media/${element.file}" class="btn">read here</a>
+                          </div>
+                          </article>
+
+                          `
+                            )  
+                          }    
+            });
+            },
+            error:(response)=>{
+                alert("error occured")
+            }
+});
+});
+
+
+
+$('.input input-4').click(()=>{ 
+  a="Manufacturing";
+  $('.text').text(a);
+  $('.grid').html(``)
+$.ajax({
+            type: "GET",
+            url:"PRoWaDr!2udrAdis_ciwowLjafIpeXldrOtHIhAx/",
+            success: function (response) {
+                var p =response.data
+                console.log(p)
+                p.forEach(element => {
+                    console.log(element)
+
+                    var date_string = element.da_ti;
+                    var dateObject = new Date(date_string);
+
+                    var monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var formattedDate = monthNames[dateObject.getMonth()] + " " +
+                              dateObject.getDate() + ", " +
+                              dateObject.getFullYear() + " " +
+                              dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    
+                    console.log(a);
+
+                    var k=element.name;                  
+                    if(k===a){
+                      $('.grid').append(
+                          `
+                          <article>
+                          <div class="text">
+                            <h3>${element.title}</h3>
+                            <p>${formattedDate} </p>
+                            <p>${element.name}</p>
+                            <h5>About</h5>
+                            <p>${element.dis}</p>
+                            <p style="color:white;">by <a href="/${element.author_id}/profile/"> ${element.auname}</a></p>
+                            <a href="/media/${element.file}" class="btn">read here</a>
+                          </div>
+                          </article>
+
+                          `
+                            )  
+                          }    
+            });
+            },
+            error:(response)=>{
+                alert("error occured")
+            }
+});
+});
+
+
+
+$('.input input-5').click(()=>{ 
+  a="ed";
+  $('.text').text(a);
+  $('.grid').html(``)
+$.ajax({
+            type: "GET",
+            url:"PRoWaDr!2udrAdis_ciwowLjafIpeXldrOtHIhAx/",
+            success: function (response) {
+                var p =response.data
+                console.log(p)
+                p.forEach(element => {
+                    console.log(element)
+
+                    var date_string = element.da_ti;
+                    var dateObject = new Date(date_string);
+
+                    var monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var formattedDate = monthNames[dateObject.getMonth()] + " " +
+                              dateObject.getDate() + ", " +
+                              dateObject.getFullYear() + " " +
+                              dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    
+                    console.log(a);
+
+                    var k=element.name;                  
+                    if(k===a){
+                      $('.grid').append(
+                          `
+                          <article>
+                          <div class="text">
+                            <h3>${element.title}</h3>
+                            <p>${formattedDate} </p>
+                            <p>${element.name}</p>
+                            <h5>About</h5>
+                            <p>${element.dis}</p>
+                            <p style="color:white;">by <a href="/${element.author_id}/profile/"> ${element.auname}</a></p>
+                            <a href="/media/${element.file}" class="btn">read here</a>
+                          </div>
+                          </article>
+
+                          `
+                            )  
+                          }    
+            });
+            },
+            error:(response)=>{
+                alert("error occured")
+            }
+});
+});
+
+$('#All').click(()=>{ 
+  a="all";
+  $('.text').text(a);
+  $('.grid').html(``)
+$.ajax({
+            type: "GET",
+            url:"PRoWaDr!2udrAdis_ciwowLjafIpeXldrOtHIhAx/",
+            success: function (response) {
+                var p =response.data
+                console.log(p)
+                p.forEach(element => {
+                    console.log(element)
+
+                    var date_string = element.da_ti;
+                    var dateObject = new Date(date_string);
+
+                    var monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var formattedDate = monthNames[dateObject.getMonth()] + " " +
+                              dateObject.getDate() + ", " +
+                              dateObject.getFullYear() + " " +
+                              dateObject.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    
+                    console.log(a);
+
+                    var k=element.name;                  
+                    $('.grid').append(
+                          `
+                          <article>
+                          <div class="text">
+                            <h5>${element.title}</h5>
+                            <p>${formattedDate} </p>
+                            <p>${element.name}</p>
+                            <h3>About</h3>
+                            <p>${element.dis}</p>
+                            <p style="color:white;">by <a href="/${element.author_id}/profile/"> ${element.auname}</a></p>
+                            <a href="/media/${element.file}" class="btn">read here</a>
+                          </div>
+                          </article>
+
+                          `
+                            )     
+            });
+            },
+            error:(response)=>{
+                alert("error occured")
+            }
+ });
+});
+</script>
+{%endblock%}

@@ -1,0 +1,157 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--Meta Keywords and Description-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{%static 'images/logo.png'%}" type="image/x-icon">
+    <title>Pixel</title>
+        
+    <!--Favicon-->
+    <link rel="shortcut icon" href="{%static 'images/logo.png'%}" title="Favicon"/>
+
+    <!-- <link rel="stylesheet" href="{%static 'bootstrap/css/bootstrap.min.css'%}"> -->
+    
+    <!-- Main CSS Files -->
+    <link rel="stylesheet" href="{%static 'front_end_files/css/style.css'%}">
+    
+    <!-- Namari Color CSS -->
+    <link rel="stylesheet" href="{%static 'front_end_files/css/namari-color.css'%}">
+    
+    <!--Icon Fonts - Font Awesome Icons-->
+    <link rel="stylesheet" href="{%static 'front_end_files/css/font-awesome.min.css'%}">
+    
+    <!-- Animate CSS-->
+    <link href="{%static 'front_end_files/css/animate.css'%}" rel="stylesheet" type="text/css">
+    
+    <!--Google Webfonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+</head>
+<style>
+html{
+  scroll-behavior: smooth;
+}
+
+    .main{
+        min-height: 100vh;
+        height: 100%;
+    }
+
+
+    /* profile image css */
+
+  #image{
+    background-size: cover;
+    background-position: center;
+    height: 25px;
+    width: 25px;
+  }
+
+  #image2 , #image3{
+    background-image: url("{%static '/images/user.png'%}");
+    background-size: cover;
+    background-position: center;
+    background-position-y: 2px;
+    height: 25px;
+    width: 25px;
+  }
+
+.logo {
+	flex: 1;
+	margin-left: 50px;
+	color: black;
+	font-size: 20px;
+	font-family: monospace;
+}
+
+</style>
+
+{%block head%}
+{%endblock%}
+
+<body>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status" class="la-ball-triangle-path">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!--End of Preloader-->
+
+<div class="page-border" data-wow-duration="0.7s" data-wow-delay="0.2s">
+    <div class="top-border wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;"></div>
+    <div class="right-border wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight;"></div>
+    <div class="bottom-border wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;"></div>
+    <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
+</div>
+
+<!-- navbar  -->
+
+<div id="wrapper">
+  
+    <header id="banner" class="scrollto clearfix" data-enllax-ratio=".5" style="background-image: url('/static/front_end_files/images/banner-images/banner-image-1.jpeg');">
+        
+      {%include 'snippets/header.html' %}
+
+      {%block header%}
+      {%endblock%}
+
+    </header>
+
+<!-- messages -->
+<div class="main">
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }} mess"{% endif %} >{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+<br>
+    {%block content%}
+    {%endblock%}
+<br>
+</div>
+
+<!-- footer -->
+<footer id="landing-footer" class="clearfix">
+{%include 'snippets/footer.html' %}
+</footer>
+</div>
+
+
+<!-- Include JavaScript resources -->
+<script src="{%static 'front_end_files/js/jquery.1.8.3.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/wow.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/featherlight.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/featherlight.gallery.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/jquery.enllax.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/jquery.scrollUp.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/jquery.easing.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/jquery.stickyNavbar.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/jquery.waypoints.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/images-loaded.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/lightbox.min.js'%}"></script>
+<script src="{%static 'front_end_files/js/site.js'%}"></script>
+<!-- <script src="{%static 'bootstrap/js/bootstrap.bundle.min.js'%}"></script> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- import toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- putting the text in toastr -->
+<script>
+  const k = $('.mess').text();
+  if(k) {
+    $('.mess').hide()
+    toastr.info(`${k}`)
+  }
+</script>
+
+</body>
+</html>

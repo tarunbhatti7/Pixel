@@ -1,0 +1,152 @@
+
+
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+$font-family-sans-serif-2: 'Poppins', sans-serif;
+$font-family-serif: 'Source Serif Pro', serif;
+
+
+
+body {
+	font-family: $font-family-sans-serif;
+	
+}
+p {
+	color: darken(#ccc, 10%);
+	font-weight: 300;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: $font-family-sans-serif;
+}
+a {
+	transition: .3s all ease;
+	&, &:hover {
+		text-decoration: none!important;
+	}
+}
+.content {
+	padding: 7rem 0;
+}
+h2 {
+	font-size: 20px;
+}
+
+.custom-dropdown {
+	.btn {
+		&:active, &:focus {
+			box-shadow: none!important;
+			outline: none;
+		}	
+		&.btn-custom {
+			border: 1px solid #efefef;	
+		}
+	}
+
+
+	.title-wrap {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.title {
+		font-size: 12px;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+
+	.dropdown-link {
+		color: #888;
+		// font-size: 15px;
+		display: inline-block;
+		padding-right: 0px;
+		position: relative;
+		.wrap-icon {
+			font-size: 30px;
+		}
+		.number {
+			width: 24px;
+			height: 24px;
+			line-height: 20px;
+			border-radius: 50%;
+			background: $primary;
+			position: absolute;
+			
+			font-size: 13px;
+			top: -10px;
+			right: -10px;
+			border: 2px solid $white;
+			color: $white;
+			text-align: center;
+		}
+		
+	}
+	
+
+	.dropdown-menu {
+		border: 1px solid transparent;
+		box-shadow: 0 15px 30px 0 rgba($black, .2);
+		margin-top: 0px!important;
+		padding-top: 0;
+		padding-bottom: 0;
+		padding: 10px;
+		opacity: 0;
+		left: 0!important;
+		transition: .3s margin-top ease, .3s opacity ease, .3s visibility ease;
+		visibility: hidden;
+		max-width: 380px;
+		&.active {
+			opacity: 1;
+			visibility: visible;
+			margin-top: 10px!important;
+		}
+
+	}
+	.custom-notifications {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		height: 200px;
+		overflow-y: scroll;
+		border-bottom: 1px solid #efefef;
+		> li {
+			display: block;
+			font-size: 14px;
+			margin-bottom: 10px;
+			&:last-child {
+				margin-bottom: 0;
+			}
+			> a {
+				display: block;
+				padding: 20px;
+				color: darken(#ccc, 5%);
+				&:hover {
+					background: lighten(#efefef, 4%);
+				}
+				.img {
+					flex: 0 0 40px;
+					img {
+						width: 40px;
+						border-radius: 50%;
+					}
+				}
+				.text {
+					margin-top: 0px;
+					strong {
+						font-weight: 700;
+						color: $black;
+					}
+				}
+			}
+			&.unread {
+				a {
+					background: #fffaef;
+				}
+			}
+		}
+	}
+	&.show {
+		
+	}
+}
